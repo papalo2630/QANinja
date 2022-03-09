@@ -1,13 +1,12 @@
 class SignupPage {
     go() {
-        cy.viewport(1440, 900)
-        cy.visit('https://buger-eats.vercel.app/?_gl=1*l0wwrn*_ga*ODI2MjY0MjczLjE2NDU0NjQxNjg.*_ga_37GXT4VGQK*MTY0NTU0ODMzOS4zLjEuMTY0NTU1MjAzNi4w')
+        cy.visit('/')
 
         cy.get('a[href="/deliver"]').click()
         cy.get('#page-deliver form h1').should('have.text', 'Cadastre-se para  fazer entregas')
     }
-    fillForm(deliver){
-        cy.get('input[name="name"]').type(deliver.name)
+    fillForm(deliver) {
+        cy.get('input[name="fullName"]').type(deliver.name)
         cy.get('input[name="cpf"]').type(deliver.cpf)
         cy.get('input[name="email"]').type(deliver.email)
         cy.get('input[name="whatsapp"]').type(deliver.whatsapp)
@@ -25,7 +24,7 @@ class SignupPage {
         cy.contains('.delivery-method li', deliver.delivery_method).click()
         cy.get('input[accept^="image"]').attachFile('/images/' + deliver.cnh)
     }
-    submit(){
+    submit() {
         cy.get('form button[type="submit"]').click()
     }
 
@@ -33,8 +32,12 @@ class SignupPage {
         cy.get('.swal2-container .swal2-html-container')
             .should('have.text', expectedMessage)
     }
-
+    alertMessageShouldBe(expectedMessage) {
+        //cy.get('.alert-error').should('have.text', expectedMessage)
+        cy.contains('.alert-error', expectedMessage).should('be.visible')
+    }
 }
-export default SignupPage;
+
+export default new SignupPage;
 
 
